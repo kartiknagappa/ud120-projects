@@ -20,11 +20,34 @@ from email_preprocess import preprocess
 features_train, features_test, labels_train, labels_test = preprocess()
 
 
+# restrict the training data
+features_train = features_train[:len(features_train)/100]
+labels_train = labels_train[:len(labels_train)/100]
 
 
 #########################################################
 ### your code goes here ###
+from sklearn.svm import SVC
+c=10000
+clf = SVC(kernel="rbf", C=c)
+t0 = time()
+clf.fit(features_train, labels_train)
+print "C=", c
+print "training time: ", round(time()-t0, 3), " s"
+t0 = time()
+pred = clf.predict(features_test)
+print "prediction time: ", round(time()-t0, 3), " s"
 
 #########################################################
 
+from sklearn.metrics import accuracy_score
+print accuracy_score(labels_test, pred)
 
+from array import *
+# elems = array('i', [10, 26, 50])
+# for i in elems:
+#   print "prediction for ", i, " is ", pred[i]
+
+predarray = array('i', pred)
+print "Sara: ", predarray.count(0)
+print "Chris: ", predarray.count(1)

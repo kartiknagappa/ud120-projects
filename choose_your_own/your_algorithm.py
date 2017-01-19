@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
 from class_vis import prettyPicture
 
+
 features_train, labels_train, features_test, labels_test = makeTerrainData()
 
 
@@ -24,21 +25,28 @@ plt.scatter(grade_slow, bumpy_slow, color = "r", label="slow")
 plt.legend()
 plt.xlabel("bumpiness")
 plt.ylabel("grade")
-plt.show()
+# plt.show()
 ################################################################################
 
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
 
+import sys
+sys.path.append("./classifiers")
+from classify_ab import classifya
+# from classify_dt import classify
+# from classify_nb import classify
 
+clf, pred = classifya(features_train, labels_train, features_test, labels_test)
+# clf = classify(features_train, labels_train, features_test, labels_test)
 
+from sklearn.metrics import accuracy_score
+print "accuracy: ", accuracy_score(labels_test, pred)
 
-
-
-
-
+from time import localtime, strftime
+filename = strftime("%Y%m%d_%H%M%S", localtime())
 try:
-    prettyPicture(clf, features_test, labels_test)
+    prettyPicture(clf, features_test, labels_test, filename)
 except NameError:
     pass
