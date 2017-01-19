@@ -3,12 +3,14 @@
 from time import time
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
-def classifya(features_train, labels_train, features_test, labels_test):
+def classify(features_train, labels_train, features_test, labels_test):
   c=10000
   gamma=15
   # clf = AdaBoostClassifier(SVC(kernel="rbf", C=c, gamma=gamma), n_estimators=50)
   clf = AdaBoostClassifier(SVC(kernel="rbf", C=c, gamma=gamma), n_estimators=500, algorithm="SAMME")
+  # clf = AdaBoostClassifier(DecisionTreeClassifier(min_samples_split=40), n_estimators=200, algorithm="SAMME")
 
   t0 = time()
   clf.fit(features_train, labels_train)

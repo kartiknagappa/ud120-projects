@@ -3,7 +3,14 @@
 import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
 from class_vis import prettyPicture
+from sklearn.metrics import accuracy_score
+from time import time, localtime, strftime
+import sys
 
+sys.path.append("./classifiers")
+from classify_ab import classify
+# from classify_dt import classify
+# from classify_nb import classify
 
 features_train, labels_train, features_test, labels_test = makeTerrainData()
 
@@ -18,13 +25,13 @@ bumpy_slow = [features_train[ii][1] for ii in range(0, len(features_train)) if l
 
 
 #### initial visualization
-plt.xlim(0.0, 1.0)
-plt.ylim(0.0, 1.0)
-plt.scatter(bumpy_fast, grade_fast, color = "b", label="fast")
-plt.scatter(grade_slow, bumpy_slow, color = "r", label="slow")
-plt.legend()
-plt.xlabel("bumpiness")
-plt.ylabel("grade")
+# plt.xlim(0.0, 1.0)
+# plt.ylim(0.0, 1.0)
+# plt.scatter(bumpy_fast, grade_fast, color = "b", label="fast")
+# plt.scatter(grade_slow, bumpy_slow, color = "r", label="slow")
+# plt.legend()
+# plt.xlabel("bumpiness")
+# plt.ylabel("grade")
 # plt.show()
 ################################################################################
 
@@ -32,19 +39,13 @@ plt.ylabel("grade")
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
 
-import sys
-sys.path.append("./classifiers")
-from classify_ab import classifya
-# from classify_dt import classify
-# from classify_nb import classify
 
-clf, pred = classifya(features_train, labels_train, features_test, labels_test)
-# clf = classify(features_train, labels_train, features_test, labels_test)
+clf, pred = classify(features_train, labels_train, features_test, labels_test)
 
-from sklearn.metrics import accuracy_score
+
 print "accuracy: ", accuracy_score(labels_test, pred)
 
-from time import localtime, strftime
+
 filename = strftime("%Y%m%d_%H%M%S", localtime())
 try:
     prettyPicture(clf, features_test, labels_test, filename)
